@@ -7,7 +7,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Clonar repositorio
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
       - name: Instalar Flutter
         uses: subosito/flutter-action@v2
@@ -27,7 +27,7 @@ jobs:
           zip -r MedTermino.ipa Payload
           
       - name: Subir archivo final
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MedTermino-iOS
-          path: MedTermino.ipa
+          path: MedTermino.ipa 
