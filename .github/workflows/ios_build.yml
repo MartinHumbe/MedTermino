@@ -1,0 +1,33 @@
+name: Compilar iOS
+on: 
+  workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+        
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Instalar dependencias
+        run: flutter pub get
+        
+      - name: Compilar iOS (Sin firma)
+        run: flutter build ios --release --no-codesign
+        
+      - name: Empaquetar a formato IPA
+        run: |
+          mkdir -p Payload
+          mv build/ios/iphoneos/Runner.app Payload/
+          zip -r MedTermino.ipa Payload
+          
+      - name: Subir archivo final
+        uses: actions/upload-artifact@v3
+        with:
+          name: MedTermino-iOS
+          path: MedTermino.ipa
